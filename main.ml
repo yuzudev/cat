@@ -17,12 +17,8 @@ with
 | Unix.Unix_error(Unix.EISDIR, _, _) -> printf "cat: %s: Is a directory\n" str
 | _ -> printf "cat: %s: Unknown error\n" str
 
-let rec drop n lst = match lst with
-| [] -> []
-| x :: xs -> if n > 0 then drop (n - 1) xs else lst
-
 let main = begin
-        let args = Sys.argv |> Array.to_list |> drop 1 in
+        let args = Sys.argv |> Array.to_list |> List.tl in
 
         List.iter cat args;
         exit 0;

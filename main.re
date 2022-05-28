@@ -1,4 +1,4 @@
-open Printf;
+open Printf
 
 /*
  * Print a file to stdout
@@ -16,23 +16,16 @@ let cat = (str) => try {
   | r => ignore(Unix.write(Unix.stdout, buffer, 0, r))
   }
 
-  Unix.close(fd);
+  Unix.close(fd)
 } {
 | Unix.Unix_error(Unix.ENOENT, _, str) => printf("cat: %s: No such a file or directory\n", str)
 | Unix.Unix_error(Unix.EISDIR, _, _) => printf("cat: %s: Is a directory\n", str)
 | _ => printf("cat: %s: Unknown error\n", str)
 }
 
-let rec drop = (n, lst) => {
-  switch (lst) {
-  | [] => []
-  | [x, ...xs] => if (n > 0) drop(n - 1, xs) else lst
-  }
-}
-
 let main = {
   // drop the first argument from Sys.argv
-  let args = Sys.argv |> Array.to_list |> drop(1)
+  let args = Sys.argv |> Array.to_list |> List.tl
 
   // cat concatenates multiple files
   List.iter(cat, args)
